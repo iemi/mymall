@@ -43,7 +43,7 @@
       #{shippingId,jdbcType=INTEGER}, #{payment,jdbcType=DECIMAL}, #{paymentType,jdbcType=INTEGER}, 
       #{postage,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{paymentTime,jdbcType=TIMESTAMP}, 
       #{sendTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{closeTime,jdbcType=TIMESTAMP}, 
-      new(), new())
+      now(), now())
   </insert>
   <insert id="insertSelective" parameterType="com.mymall.pojo.Order" >
     insert into mmall_order
@@ -129,10 +129,10 @@
         #{closeTime,jdbcType=TIMESTAMP},
       </if>
       <if test="createTime != null" >
-        new(),
+        now(),
       </if>
       <if test="updateTime != null" >
-        new(),
+        now(),
       </if>
     </trim>
   </insert>
@@ -175,9 +175,7 @@
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="updateTime != null" >
-        new(),
-      </if>
+        update_time=now(),
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -195,7 +193,23 @@
       end_time = #{endTime,jdbcType=TIMESTAMP},
       close_time = #{closeTime,jdbcType=TIMESTAMP},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      new()
+      now()
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <select id="selectByUserIdAndOrderNo" parameterType="map" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM
+    mmall_order
+    WHERE user_id =#{userId}
+    AND order_no =#{orderNo}
+  </select>
+
+  <select id="selectByOrderNo" parameterType="long" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM mmall_order
+    WHERE order_no = #{orderNo}
+  </select>
 </mapper>

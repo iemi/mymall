@@ -8,8 +8,11 @@
 	http://www.springframework.org/schema/mvc
 	http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
+
+    <!--springmvc配置文件-->
     <context:component-scan base-package="com.mymall" annotation-config="true"/>
 
+    <!--自动序列化为json-->
     <mvc:annotation-driven>
         <mvc:message-converters>
             <bean class="org.springframework.http.converter.StringHttpMessageConverter">
@@ -23,7 +26,7 @@
             <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
                 <property name="supportedMediaTypes">
                     <list>
-                        <value>application/json;charset=UTF-8</value>
+                            <value>application/json;charset=UTF-8</value>
                     </list>
                 </property>
             </bean>
