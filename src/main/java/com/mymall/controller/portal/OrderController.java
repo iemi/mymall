@@ -27,7 +27,6 @@ public class OrderController {
 
     Logger logger  = LoggerFactory.getLogger(OrderController.class);
 
-    //dwdwd
     @Autowired
     private IOrderService iOrderService;
 
