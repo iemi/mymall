@@ -11,11 +11,12 @@
 
     <context:component-scan base-package="com.mymall" annotation-config="true"/>
 
-    <!--常量分离-->
+    <!--常量分离 引入配置文件-->
     <bean id="propertyConfigurer"
           class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="order" value="2"/>
         <property name="ignoreUnresolvablePlaceholders" value="true"/>
+        <!--配置文件路径-->
         <property name="locations">
             <list>
                 <value>classpath:datasource.properties</value>
@@ -59,8 +60,10 @@
         <property name="validationQuery" value="SELECT 1 FROM dual"/>
     </bean>
 
+    <!--Spring和Mybatis完美整合，不需要Mybatis配置映射文件-->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
+        <!--自动扫描mapper配置文件-->
         <property name="mapperLocations" value="classpath*:mappers/*Mapper.xml"></property>
 
         <!-- 分页插件 -->
@@ -75,15 +78,18 @@
                 </bean>
             </array>
         </property>
-
     </bean>
 
+    <!--dao层接口所在的包名，Spring自动查找其下的类，并注册进入容器
+    使用一个 MapperScannerConfigurer,
+    它将会查找类路径下的映射器并自动将它们建成MapperFactoryBean
+    -->
     <bean name="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.mymall.dao"/>
     </bean>
 
     <!-- 使用@Transactional进行声明式事务管理需要声明下面这行 -->
-    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
+    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
     <!-- 事务管理 -->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource"/>

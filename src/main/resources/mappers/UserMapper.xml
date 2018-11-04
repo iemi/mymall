@@ -152,11 +152,11 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <select id="checkUsername" resultType="int" parameterType="String">
+  <select id="checkUsername" resultType="java.lang.Integer" parameterType="String">
     SELECT COUNT(1) FROM mmall_user WHERE username=#{username}
   </select>
 
-  <select id="checkEmail" resultType="int" parameterType="String">
+  <select id="checkEmail" resultType="java.lang.Integer" parameterType="String">
     SELECT COUNT(1) FROM mmall_user WHERE email=#{email}
   </select>
 
@@ -167,11 +167,11 @@
     and password = #{password}
   </select>
   
-  <select id="selectQuestionByUsername" resultType="String" parameterType="String">
+  <select id="selectQuestionByUsername" resultType="java.lang.String" parameterType="String">
     select question from mmall_user where username=#{username}
   </select>
   
-  <select id="checkAnswer" parameterType="Map" resultType="int">
+  <select id="checkAnswer" parameterType="Map" resultType="java.lang.Integer">
     select count(1) from mmall_user where username=#{username} and question=#{question}
     and answer=#{answer}
   </select>

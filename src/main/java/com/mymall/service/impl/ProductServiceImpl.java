@@ -256,6 +256,8 @@ public class ProductServiceImpl implements IProductService{
      * @return
      */
     public ServerResponse<PageInfo> portalSearchProduct(Integer categoryId, String keyword, Integer pageNum, Integer pageSize, String orderBy){
+
+        //分类和关键字都没有传入
         if(categoryId == null && StringUtils.isBlank(keyword)){
             return ServerResponse.createByErrorMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(),ResponseCode.ILLEGAL_ARGUMENT.getDesc());
         }

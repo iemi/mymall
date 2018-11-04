@@ -167,18 +167,14 @@ public class ProductManageController {
     @ResponseBody
     public ServerResponse<Map> upload(HttpSession session, MultipartFile uploadFile, HttpServletRequest request) {
 
-        User user = (User) session.getAttribute(Const.CURRENT_USER);
-
-        if (user == null) {
-            return ServerResponse.createByErrorMessage("用户未登录");
-        }
-
-        if (user.getRole() == 0) {
-            return ServerResponse.createByErrorMessage("无权限");
-        }
-//        if(uploadFile == null){
-//            System.out.println("null");
-//            return null;
+//        User user = (User) session.getAttribute(Const.CURRENT_USER);
+//
+//        if (user == null) {
+//            return ServerResponse.createByErrorMessage("用户未登录");
+//        }
+//
+//        if (user.getRole() == 0) {
+//            return ServerResponse.createByErrorMessage("无权限");
 //        }
         //这个路径是项目根路径，也就是webapp文件夹下
         String path = request.getSession().getServletContext().getRealPath("upload");
@@ -213,19 +209,19 @@ public class ProductManageController {
         Map result = Maps.newHashMap();
         User user = (User) session.getAttribute(Const.CURRENT_USER);
 
-        if (user == null) {
-            result.put("success",false);
-            result.put("msg","用户未登录，上传失败");
-//            return ServerResponse.createByErrorMessage("用户未登录");
-            return result;
-        }
-
-        if (user.getRole() == 0) {
-            result.put("success",false);
-            result.put("msg","无权限，上传失败");
-//            return ServerResponse.createByErrorMessage("无权限");
-            return result;
-        }
+//        if (user == null) {
+//            result.put("success",false);
+//            result.put("msg","用户未登录，上传失败");
+////            return ServerResponse.createByErrorMessage("用户未登录");
+//            return result;
+//        }
+//
+//        if (user.getRole() == 0) {
+//            result.put("success",false);
+//            result.put("msg","无权限，上传失败");
+////            return ServerResponse.createByErrorMessage("无权限");
+//            return result;
+//        }
         //这个路径是项目根路径，也就是webapp文件夹下
         String path = request.getSession().getServletContext().getRealPath("upload");
         String targetFileName = iFileService.upload(uploadFile, path);
@@ -236,6 +232,7 @@ public class ProductManageController {
             result.put("msg","上传失败");
         }
 
+        //??
         response.addHeader("Access-Control-Allow-Headers","X-File-Name");
         result.put("success",true);
         result.put("msg","上传成功");

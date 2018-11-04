@@ -18,13 +18,12 @@ public class PropertiesUtil {
 
     private  static Properties properties;
 
-
     //代码执行顺序 静态代码块->普通代码块->构造代码块
     static {
         String fileName = "mmall.properties";
         properties = new Properties();
         try {
-            //???
+            //在classpath路径下加载该配置文件
             properties.load(new InputStreamReader(PropertiesUtil.class.getClassLoader().getResourceAsStream(fileName),"UTF-8"));
         } catch (IOException e) {
             logger.error("读取配置文件异常",e);
