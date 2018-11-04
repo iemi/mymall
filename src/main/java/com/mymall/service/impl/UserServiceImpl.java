@@ -153,11 +153,12 @@ public class UserServiceImpl implements IUserService {
      * @return
      */
     public ServerResponse<String> checkAnswer(String username, String question, String answer) {
-//        ServerResponse<String> checkResp = checkValid(username,Const.USERNMAE);
-//        if(checkResp.isSuccess()){
-//            //username不存在
-//            return ServerResponse.createByErrorMessage("用户不存在");
-//        }
+
+        ServerResponse<String> checkResp = checkValid(username,Const.USERNMAE);
+        if(checkResp.isSuccess()){
+            //username不存在
+            return ServerResponse.createByErrorMessage("用户不存在");
+        }
         int resultCount = userMapper.checkAnswer(username, question, answer);
         if (resultCount == 0) {
             return ServerResponse.createByErrorMessage("问题答案错误");

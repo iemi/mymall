@@ -7,7 +7,8 @@ import java.util.Set;
 /**
  * 常量类
  */
-public class Const {
+public class Const{
+
     public final static String CURRENT_USER = "currentUser";//session存放的user
 
     public static final String USERNMAE = "username";
@@ -86,6 +87,15 @@ public class Const {
         public void setValue(String value) {
             this.value = value;
         }
+
+        public static OrderStatusEnum getEnumByCode(int code){
+            for(OrderStatusEnum orderStatusEnum : values()){
+                if(orderStatusEnum.getCode() == code){
+                    return orderStatusEnum;
+                }
+            }
+            throw new RuntimeException("么有找到对应的枚举");
+        }
     }
 
     //支付宝回调 交易状态
@@ -125,6 +135,46 @@ public class Const {
 
             this.code = code;
             this.value = value;
+        }
+    }
+
+    //支付方式
+    public enum PaymentTypeEnum{
+        ONLINE(1,"在线支付")
+        ;
+
+        int code;
+        String value;
+
+        public int getCode() {
+            return code;
+        }
+
+        public void setCode(int code) {
+            this.code = code;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        public void setValue(String value) {
+            this.value = value;
+        }
+
+        PaymentTypeEnum(int code, String value) {
+
+            this.code = code;
+            this.value = value;
+        }
+
+        public static PaymentTypeEnum codeOf(int code){
+            for(PaymentTypeEnum paymentTypeEnum : values()){
+                if(paymentTypeEnum.getCode() == code){
+                    return paymentTypeEnum;
+                }
+            }
+            throw new RuntimeException("么有找到对应的枚举");
         }
     }
 }

@@ -1,7 +1,9 @@
 package com.mymall.pojo;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 public class Category {
     private Integer id;
@@ -99,5 +101,18 @@ public class Category {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public static void main(String[] args) {
+//        String s1 = new String("aa");
+//        String s2 = new String("aa");
+        Category c = new Category();
+        c.setId(1);
+        Category c2 = new Category();
+        c2.setId(1);
+        Set set = new HashSet<>();
+        set.add(c);
+        set.add(c2);
+        System.out.println(c.hashCode() + "  " + c2.hashCode() + " " + set.size());
     }
 }

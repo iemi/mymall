@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,9 +28,78 @@ public class OrderController {
 
     Logger logger  = LoggerFactory.getLogger(OrderController.class);
 
-    //dw
+
     @Autowired
     private IOrderService iOrderService;
+
+    /**
+     * 创建订单信息，清空购物车，用于向支付宝发起预下单请求
+     * @param session
+     * @param shippingId
+     * @return
+     */
+    @RequestMapping("create.do")
+    @ResponseBody
+    public ServerResponse create(HttpSession session,Integer shippingId){
+        User currentUser = (User) session.getAttribute(Const.CURRENT_USER);
+        if(currentUser == null){
+            return  ServerResponse.createByErrorMessage(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
+        }
+        return iOrderService.createOrder(currentUser.getId(),shippingId);
+    }
+
+
+    /**
+     * 取消订单
+     * @param session
+     * @param orderNo
+     * @return
+     */
+    @RequestMapping("cancel.do")
+    @ResponseBody
+    public ServerResponse cancel(HttpSession session,Long orderNo){
+        User currentUser = (User) session.getAttribute(Const.CURRENT_USER);
+        if(currentUser == null){
+            return  ServerResponse.createByErrorMessage(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
+        }
+        return iOrderService.cancelOrder(currentUser.getId(),orderNo);
+    }
+
+    /**
+     * 获取购物车中勾选商品
+     * @param session
+     * @return
+     */
+    @RequestMapping("get_order_cart_product.do")
+    @ResponseBody
+    public ServerResponse getOrderProduct(HttpSession session){
+        User currentUser = (User) session.getAttribute(Const.CURRENT_USER);
+        if(currentUser == null){
+            return  ServerResponse.createByErrorMessage(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
+        }
+        return iOrderService.getOrderCartProduct(currentUser.getId());
+    }
+
+    @RequestMapping("detail.do")
+    @ResponseBody
+    public ServerResponse detail(HttpSession session,Long orderNo){
+        User currentUser = (User) session.getAttribute(Const.CURRENT_USER);
+        if(currentUser == null){
+            return  ServerResponse.createByErrorMessage(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
+        }
+        return iOrderService.getDetai(currentUser.getId(),orderNo);
+    }
+
+    @RequestMapping("list.do")
+    @ResponseBody
+    public ServerResponse list(HttpSession session, @RequestParam(value="pageNum",defaultValue = "1") Integer pageNum, @RequestParam(value="pageSize",defaultValue = "10")Integer pageSize){
+        User currentUser = (User) session.getAttribute(Const.CURRENT_USER);
+        if(currentUser == null){
+            return  ServerResponse.createByErrorMessage(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
+        }
+        return iOrderService.list(currentUser.getId(),pageNum,pageSize);
+    }
+
 
     @RequestMapping("pay.do")
     @ResponseBody
@@ -108,4 +178,5 @@ public class OrderController {
             return ServerResponse.createBySuccess(false);
         }
     }
+
 }

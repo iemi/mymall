@@ -18,7 +18,7 @@ public class ServerResponse<T> implements Serializable {
     private String msg;
     private T data;//不限定类型，在请求正确错误时，可能返回不一样的类型
 
-    //构造器时有，外部不可以new
+    //构造器私有，外部不可以new
     private ServerResponse(int status) {
         this.status = status;
     }
@@ -56,30 +56,30 @@ public class ServerResponse<T> implements Serializable {
         return this.data;
     }
 
-    //一个static方法，无法访问泛型类的类型参数，所以，若要static方法需要使用泛型能力，必须使其成为泛型方法。
+    //一个static方法，无法访问定义在泛型类中的类型参数，所以，若要static方法需要使用泛型能力，必须使其成为泛型方法。
     //成功返回
-    public static <T> ServerResponse<T> createBySuccess(){
-        return new ServerResponse<T>(ResponseCode.SUCCESS.getCode());
+    public static  ServerResponse createBySuccess(){
+        return new ServerResponse(ResponseCode.SUCCESS.getCode());
     }
-    public static <T> ServerResponse<T> createBySuccessMessage(String msg){
-        return new ServerResponse<T>(ResponseCode.SUCCESS.getCode(),msg);
+    public static  ServerResponse createBySuccessMessage(String msg){
+        return new ServerResponse(ResponseCode.SUCCESS.getCode(),msg);
     }
     public static <T> ServerResponse<T> createBySuccess(T data){
-        return  new ServerResponse<T>(ResponseCode.SUCCESS.getCode(),data);
+        return  new ServerResponse(ResponseCode.SUCCESS.getCode(),data);
     }
     public static <T> ServerResponse<T> createBySuccess(String msg,T data){
-        return new ServerResponse<T>(ResponseCode.SUCCESS.getCode(),msg,data);
+        return new ServerResponse(ResponseCode.SUCCESS.getCode(),msg,data);
     }
 
     //失败返回
-    public static <T> ServerResponse<T> createByError(){
-        return new ServerResponse<T>(ResponseCode.ERROR.getCode(),ResponseCode.ERROR.getDesc());
+    public static ServerResponse createByError(){
+        return new ServerResponse(ResponseCode.ERROR.getCode(),ResponseCode.ERROR.getDesc());
     }
-    public static <T> ServerResponse<T> createByErrorMessage(String msg){
-        return new ServerResponse<T>(ResponseCode.ERROR.getCode(),msg);
+    public static ServerResponse createByErrorMessage(String msg){
+        return new ServerResponse(ResponseCode.ERROR.getCode(),msg);
     }
-    public static <T> ServerResponse<T> createByErrorMessage(int errorCode,String msg){
-        return new ServerResponse<T>(errorCode,msg);
+    public static ServerResponse createByErrorMessage(int errorCode,String msg){
+        return new ServerResponse(errorCode,msg);
     }
 
 }
