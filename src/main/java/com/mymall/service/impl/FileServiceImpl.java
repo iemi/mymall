@@ -43,7 +43,7 @@ public class FileServiceImpl implements IFileService{
 
         File targetFile = new File(path,uploadName);
         try {
-            file.transferTo(targetFile);//文件上传成功 只是上传到tomcat下
+            file.transferTo(targetFile);//文件上传成功 只是上传到服务器tomcat下
             FTPUtil.uploadFile(Lists.newArrayList(targetFile));//上传到ftp服务器上
             targetFile.delete();//删除upload下面的文件
         } catch (IOException e) {

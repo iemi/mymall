@@ -209,4 +209,5 @@ public class CartSereviceImpl implements ICartService{
         }
         return cartMapper.getAllCheckedStatus(userId) == 0;
     }
+
 }
